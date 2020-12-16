@@ -8,7 +8,7 @@ boot = commands.Bot(command_prefix = '!')
 
 
 x = PrettyTable()
-df = pd.read_csv("mainmovie.csv")
+df = pd.read_csv("example.csv")
 users = list(df.columns[1:5]) 
 
 df.fillna("-", inplace = True)
@@ -21,7 +21,7 @@ def add_user(new_user):
     detect_user = True
     df[new_user] = None
     df.fillna("-", inplace = True)
-    df.to_csv("mainmovie.csv", index = False)
+    df.to_csv("example.csv", index = False)
 
 @boot.event
 async def on_ready():
@@ -48,7 +48,7 @@ async def rate(ctx, arg1, arg2):
                 moviecolumn = df["Movies"]
                 index_movie = movies.index(arg1)
                 df.loc[index_movie, trueauthor] = str(arg2)
-                df.to_csv("mainmovie.csv", index = False)
+                df.to_csv("example.csv", index = False)
                 await ctx.send("Updated Rating!")  
             elif int(arg2) < 0: 
                 await ctx.send("No negative numbers")
@@ -67,7 +67,7 @@ async def rate(ctx, arg1, arg2):
                 arg1 = arg1.capitalize()
                 index_movie = movies.index(arg1)
                 df.loc[index_movie, trueauthor] = str(arg2)
-                df.to_csv("mainmovie.csv", index = False)
+                df.to_csv("example.csv", index = False)
                 await ctx.send("Updated Rating!")
                 
     
@@ -85,7 +85,7 @@ async def rate(ctx, arg1, arg2):
 @boot.command(pass_context=True)
 async def add(ctx, *, arg):
     trueauthor = str(ctx.author)[:-5]
-    if trueauthor == "momonmo":    
+    if trueauthor == "user1":    
         if len(str(arg)) < 14:
             users = list(df.columns[1:]) 
             dash = "-" * (len(users))
@@ -93,7 +93,7 @@ async def add(ctx, *, arg):
             dash.insert(0, arg)
             df.loc[-1] = dash  
             await ctx.send("Added movie to list")
-            df.to_csv("mainmovie.csv", index = False)
+            df.to_csv("example.csv", index = False)
 
         else:
             await ctx.send("Too long try again")
@@ -106,7 +106,7 @@ async def movie(ctx):
     embed = discord.Embed(title='Movie Rating')
     await ctx.send(embed=embed)
 
-    df = pd.read_csv("mainmovie.csv")
+    df = pd.read_csv("example.csv")
     x.clear()
     movies = list(df["Movies"])
     x.field_names = list(df.columns)
@@ -119,7 +119,7 @@ async def movie(ctx):
 
 @boot.command(pass_context=True)
 async def avg(ctx): 
-    df = pd.read_csv("mainmovie.csv")
+    df = pd.read_csv("example.csv")
     movies = list(df["Movies"])
     ratings_of_everyone = []
     
